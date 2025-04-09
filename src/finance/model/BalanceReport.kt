@@ -1,6 +1,6 @@
 package finance.model
 
 data class BalanceReport(
-    val tmp : Boolean
+    val balance : Double
 )
 
