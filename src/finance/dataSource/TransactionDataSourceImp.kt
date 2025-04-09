@@ -37,9 +37,6 @@ class TransactionDataSourceImp : TransactionDataSource {
 
     override fun getTransactionById(id: String): Transaction? = transactions[id]
 
-    override fun getMonthlySummary(month: YearMonth): MonthSummary {
-        TODO("Not yet implemented")
-    }
 
 
     private fun checkIfTransactionExist(id: String) =
