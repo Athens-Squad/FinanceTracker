@@ -1,3 +1,7 @@
 package finance.model
 
-data class Transaction(val dummyProperty: Nothing = TODO())
+import java.util.*
+
+data class Transaction(
+    val id: String,
+)
