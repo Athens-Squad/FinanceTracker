@@ -1,6 +1,6 @@
 package finance.model
 
-/*TODO*/
 data class MonthSummary(
-    val tmp : Boolean
+    val category : String,
+    val amount: Double
 )
