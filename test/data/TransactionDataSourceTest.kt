@@ -19,13 +19,7 @@ fun main() {
     val editedTransaction = transaction1.copy(amount = 7000)
 
     testTransaction(
-        name = "Add a transaction should return same transaction",
-        result = dataSource.addTransaction(transaction1) == transaction1,
-        correctResult = transaction1
-    )
-
-    testTransaction(
-        name = "Add Transaction 1 should return the added transaction",
+        name = "Add Transaction1 should return the added transaction",
         result = dataSource.addTransaction(transaction1),
         correctResult = transaction1
     )
