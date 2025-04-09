@@ -1,9 +1,8 @@
 package finance.dataSource
 
-import finance.model.BalanceReport
 import finance.model.MonthSummary
 import finance.model.Transaction
-import finance.model.TransactionType
+import java.time.YearMonth
 
 
 class TransactionDataSourceImp : TransactionDataSource {
@@ -38,24 +37,10 @@ class TransactionDataSourceImp : TransactionDataSource {
 
     override fun getTransactionById(id: String): Transaction? = transactions[id]
 
-
-    override fun getMonthlySummary(month: Int): MonthSummary {
-        val monthTransactions = transactions.filter { it.value.date.monthValue == month }
-        return MonthSummary(
-            month = monthTransactions
-        )
+    override fun getMonthlySummary(month: YearMonth): MonthSummary {
+        TODO("Not yet implemented")
     }
 
-    // filter by category
-    override fun getBalanceReport(): BalanceReport {
-        val listOfTransactions = getAllTransactions()
-        val income = listOfTransactions.filter { it.transactionType == TransactionType.INCOME }.sumOf { it.amount }
-
-        val expense = listOfTransactions.filter { it.transactionType == TransactionType.EXPENSE }.sumOf { it.amount }
-        return BalanceReport(
-            income, expense
-        )
-    }
 
     private fun checkIfTransactionExist(id: String) =
         transactions.containsKey(id)
