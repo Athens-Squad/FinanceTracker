@@ -1,4 +1,63 @@
-package data
+import finance.dataSource.TransactionDataSourceImp
+import finance.model.Transaction
+import finance.model.TransactionType
+import java.time.LocalDate
 
-class TransactionDataSourceTest {
+
+fun main() {
+    val dataSource = TransactionDataSourceImp()
+
+
+    val transaction1 = Transaction(
+        id = "1",
+        transactionType = TransactionType.INCOME,
+        amount = 6000,
+        category = "salary",
+        date = LocalDate.of(2025, 4, 8)
+    )
+
+    val editedTransaction = transaction1.copy(amount = 7000)
+
+    testTransaction(
+        name = "Add a transaction should return same transaction",
+        result = dataSource.addTransaction(transaction1) == transaction1,
+        correctResult = transaction1
+    )
+
+    testTransaction(
+        name = "Add Transaction 1 should return the added transaction",
+        result = dataSource.addTransaction(transaction1),
+        correctResult = transaction1
+    )
+
+    testTransaction("Edit an existing transaction should return true",
+        result = dataSource.editTransaction(editedTransaction),
+        correctResult = true
+    )
+
+    testTransaction("Edit non existing transaction should return true",
+        result = dataSource.editTransaction(editedTransaction),
+        correctResult = false
+    )
+
+    testTransaction(
+        name = "Delete an existing transaction is valid",
+        result = dataSource.deleteTransaction(1),
+        correctResult = true
+    )
+
+    testTransaction(
+        name = "Delete non existing transaction is not valid",
+        result = dataSource.deleteTransaction(999),
+        correctResult = false
+    )
 }
+
+fun<T> testTransaction(name: String, result: T, correctResult: T) {
+    if (result == correctResult) {
+        println("Succeed: $name")
+    } else {
+        println("Failed: $name")
+    }
+}
+
