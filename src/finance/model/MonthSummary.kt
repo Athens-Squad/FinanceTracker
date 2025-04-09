@@ -1,6 +1,8 @@
 package finance.model
 
 data class MonthSummary(
-    val category : String,
-    val amount: Double
+    val transactions: List<Transaction>,
+    val balance: Int,
+    val income: Int,
+    val expense: Int
 )
