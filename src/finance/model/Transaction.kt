@@ -9,7 +9,6 @@ data class Transaction(
     val amount:Int,
     val category: String,
     val date:LocalDate,
-
     )
 enum class TransactionType {
     INCOME,
