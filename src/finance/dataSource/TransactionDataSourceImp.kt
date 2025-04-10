@@ -1,37 +1,44 @@
 package finance.dataSource
 
-import finance.model.BalanceReport
 import finance.model.MonthSummary
 import finance.model.Transaction
+import java.time.YearMonth
 
 
 class TransactionDataSourceImp : TransactionDataSource {
-    override fun addTransaction(transaction: Transaction): Transaction {
-        TODO("Not yet implemented")
+    private val transactions: MutableMap<String, Transaction> = mutableMapOf()
+
+
+    override fun addTransaction(transaction: Transaction): Boolean {
+        transactions[transaction.id] = transaction
+        return true
     }
 
     override fun editTransaction(editedTransaction: Transaction): Boolean {
-        TODO("Not yet implemented")
+
+        return if (checkIfTransactionExist(editedTransaction.id)) {
+            transactions[editedTransaction.id] = editedTransaction
+            true
+        } else {
+            false
+        }
     }
 
-    override fun deleteTransaction(id: Int): Boolean {
-        TODO("Not yet implemented")
+    override fun deleteTransaction(id: String): Boolean {
+        return if (checkIfTransactionExist(id)) {
+            transactions.remove(id)
+            true
+        } else {
+            false
+        }
     }
 
-    override fun getAllTransactions(): List<Transaction> {
-        TODO("Not yet implemented")
-    }
+    override fun getAllTransactions(): List<Transaction> = transactions.values.toList()
 
-    override fun getTransactionById(id: Int): Transaction {
-        TODO("Not yet implemented")
-    }
+    override fun getTransactionById(id: String): Transaction? = transactions[id]
 
-    override fun getMonthlySummary(): MonthSummary {
-        TODO("Not yet implemented")
-    }
 
-    override fun getBalanceReport(): BalanceReport {
-        TODO("Not yet implemented")
-    }
 
+    private fun checkIfTransactionExist(id: String) =
+        transactions.containsKey(id)
 }
