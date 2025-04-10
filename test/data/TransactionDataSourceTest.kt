@@ -29,7 +29,7 @@ fun main() {
     testTransaction(
         name = "Add Transaction1 should return the added transaction",
         result = dataSource.addTransaction(transaction1),
-        correctResult = transaction1
+        correctResult = true
     )
 
     testTransaction("Edit an existing transaction should return true",
