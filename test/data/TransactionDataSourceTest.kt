@@ -16,12 +16,20 @@ fun main() {
         date = LocalDate.of(2025, 4, 8)
     )
 
+    val fakeTransaction = Transaction(
+        id = "800",
+        transactionType = TransactionType.INCOME,
+        amount = 6000000,
+        category = "salary",
+        date = LocalDate.of(2029, 2, 12)
+    )
+
     val editedTransaction = transaction1.copy(amount = 7000)
 
     testTransaction(
         name = "Add Transaction1 should return the added transaction",
         result = dataSource.addTransaction(transaction1),
-        correctResult = transaction1
+        correctResult = true
     )
 
     testTransaction("Edit an existing transaction should return true",
@@ -30,19 +38,19 @@ fun main() {
     )
 
     testTransaction("Edit non existing transaction should return true",
-        result = dataSource.editTransaction(editedTransaction),
+        result = dataSource.editTransaction(fakeTransaction),
         correctResult = false
     )
 
     testTransaction(
         name = "Delete an existing transaction is valid",
-        result = dataSource.deleteTransaction(1),
+        result = dataSource.deleteTransaction("1"),
         correctResult = true
     )
 
     testTransaction(
         name = "Delete non existing transaction is not valid",
-        result = dataSource.deleteTransaction(999),
+        result = dataSource.deleteTransaction("999"),
         correctResult = false
     )
 }
