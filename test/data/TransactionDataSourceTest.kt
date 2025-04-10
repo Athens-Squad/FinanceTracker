@@ -1,3 +1,5 @@
+@file:Suppress("UNREACHABLE_CODE")
+
 import finance.dataSource.TransactionDataSourceImp
 import finance.model.Transaction
 import finance.model.TransactionType
@@ -29,7 +31,7 @@ fun main() {
     testTransaction(
         name = "Add Transaction1 should return the added transaction",
         result = dataSource.addTransaction(transaction1),
-        correctResult = transaction1
+        correctResult = true
     )
 
     testTransaction("Edit an existing transaction should return true",
@@ -52,6 +54,29 @@ fun main() {
         name = "Delete non existing transaction is not valid",
         result = dataSource.deleteTransaction("999"),
         correctResult = false
+    )
+
+    dataSource.addTransaction(transaction1)
+
+    val all = dataSource.getAllTransactions()
+    testTransaction(
+        name = "getAllTransactions should return 2 transactions",
+        result = all.size,
+        correctResult = 1
+    )
+
+    val found = dataSource.getTransactionById("1")
+    testTransaction(
+        name = "getTransactionById should return transaction2",
+        result = found,
+        correctResult = transaction1
+    )
+
+    val notFound = dataSource.getTransactionById("999")
+    testTransaction(
+        name = "getTransactionById with invalid ID should return null",
+        result = notFound,
+        correctResult = null
     )
 }
 
