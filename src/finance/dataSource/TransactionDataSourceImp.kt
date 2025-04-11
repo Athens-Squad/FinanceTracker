@@ -1,16 +1,22 @@
 package finance.dataSource
 
-import finance.model.MonthSummary
 import finance.model.Transaction
-import java.time.YearMonth
+import kotlin.collections.set
 
 
-class TransactionDataSourceImp : TransactionDataSource {
-    private val transactions: MutableMap<String, Transaction> = mutableMapOf()
+class TransactionDataSourceImp(
+    private val fileTransactionDataSource: FileTransactionDataSource
+) : TransactionDataSource {
+    private var transactions: MutableMap<String, Transaction> = mutableMapOf()
 
+    init {
+        // load local transactions
+        transactions = fileTransactionDataSource.loadTransactionsFromFile()
+    }
 
     override fun addTransaction(transaction: Transaction): Boolean {
         transactions[transaction.id] = transaction
+        fileTransactionDataSource.saveTransactionToFile(transaction)
         return true
     }
 
@@ -18,6 +24,7 @@ class TransactionDataSourceImp : TransactionDataSource {
 
         return if (checkIfTransactionExist(editedTransaction.id)) {
             transactions[editedTransaction.id] = editedTransaction
+            fileTransactionDataSource.saveTransactionToFile(editedTransaction, isEdited = true)
             true
         } else {
             false
@@ -27,6 +34,7 @@ class TransactionDataSourceImp : TransactionDataSource {
     override fun deleteTransaction(id: String): Boolean {
         return if (checkIfTransactionExist(id)) {
             transactions.remove(id)
+            fileTransactionDataSource.deleteTransactionFromFile(id)
             true
         } else {
             false
@@ -38,7 +46,5 @@ class TransactionDataSourceImp : TransactionDataSource {
     override fun getTransactionById(id: String): Transaction? = transactions[id]
 
 
-
-    private fun checkIfTransactionExist(id: String) =
-        transactions.containsKey(id)
+    private fun checkIfTransactionExist(id: String) = transactions.containsKey(id)
 }
