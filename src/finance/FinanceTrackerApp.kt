@@ -171,10 +171,6 @@ class FinanceTrackerApp {
         return input.orEmpty()
     }
 
-//    private fun promptForAmount(prompt: String): Int? {
-//        print("$prompt: ")
-//        return readlnOrNull()?.toIntOrNull()
-//    }
     private fun promptForAmount(prompt: String): Int? {
         print("$prompt: ")
         val input = readlnOrNull()?.trim()
