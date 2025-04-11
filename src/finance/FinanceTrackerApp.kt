@@ -23,7 +23,7 @@ class FinanceTrackerApp {
                 "4" -> editTransaction()
                 "5" -> deleteTransaction()
                 "0" -> {
-                    println("Exiting Finance Tracker. Goodbye!")
+                    exitApp()
                     break
                 }
             }
