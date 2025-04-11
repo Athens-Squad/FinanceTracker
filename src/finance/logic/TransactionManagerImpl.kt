@@ -41,7 +41,7 @@ class TransactionManagerImpl(
             .sumOf { it.amount }
 
         return MonthSummary(
-            transactions = transactions,
+            transactions =monthlyTransactions ,
             balance = income - expense,
             income = income,
             expense = expense

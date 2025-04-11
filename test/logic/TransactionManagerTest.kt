@@ -1,9 +1,10 @@
+package logic
 import finance.dataSource.TransactionDataSourceImp
-import finance.logic.TransactionManagerImpl
 import finance.model.Transaction
 import finance.model.TransactionType
 import java.time.LocalDate
 import java.time.YearMonth
+
 
 fun main() {
     val dataSource = TransactionDataSourceImp()
