@@ -1,4 +1,4 @@
-package finance.logic
+package logic
 import finance.dataSource.TransactionDataSourceImp
 import finance.model.Transaction
 import finance.model.TransactionType
