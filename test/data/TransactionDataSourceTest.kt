@@ -12,7 +12,6 @@ fun main() {
     val mockFileDataSource: FileTransactionDataSource = MockFileDataSourceImpl()
     val dataSource = TransactionDataSourceImp(mockFileDataSource)
 
-
     val transaction1 = Transaction(
         id = "1",
         transactionType = TransactionType.INCOME,
