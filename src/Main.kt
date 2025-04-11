@@ -1,6 +1,6 @@
-import finance.dataSource.TransactionDataSource
-import finance.dataSource.TransactionDataSourceImp
-import finance.logic.TransactionManagerImpl
+import finance.FinanceTrackerApp
 
 fun main() {
+    //implement simple cli
+    FinanceTrackerApp().start()
 }
