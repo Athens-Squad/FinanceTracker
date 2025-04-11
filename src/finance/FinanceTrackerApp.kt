@@ -18,7 +18,7 @@ class FinanceTrackerApp {
             showMenu()
             when (readlnOrNull()) {
                 "1" -> addTransaction()
-//                "2" -> viewAllTransactions()
+                "2" -> viewAllTransactions()
                 "3" -> viewMonthlySummary()
                 "4" -> editTransaction()
                 "5" -> deleteTransaction()
@@ -51,7 +51,17 @@ class FinanceTrackerApp {
         println("✅ Transaction added: ${transaction.id} | ${transaction.transactionType} | ${transaction.category} | ${transaction.amount} | ${transaction.date}\n")
     }
 
-
+    private fun viewAllTransactions(){
+        val transactions = transactionManager.getAllTransactions()
+        if (transactions.isEmpty()) {
+            println("❌ No transactions found.")
+        } else {
+            println("📜 All Transactions:")
+            transactions.forEach { transaction ->
+                println("ID: ${transaction.id} | ${transaction.transactionType} | ${transaction.category} | ${transaction.amount} | ${transaction.date}")
+            }
+        }
+    }
     private fun viewMonthlySummary(){
         val yearMonth = promptForYearMonth("📅 Enter month for summary (yyyy-MM)") ?: return
         val summary = transactionManager.getSummaryMonth(yearMonth)
