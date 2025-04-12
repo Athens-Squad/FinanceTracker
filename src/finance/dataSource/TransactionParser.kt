@@ -24,4 +24,9 @@ class TransactionParser {
             null
         }
     }
+
+    fun parseTransactionToLine(transaction: Transaction): String {
+        return "${transaction.id}|${transaction.amount}|${transaction.category}|${transaction.date.format(dateFormatter)}|${transaction.transactionType}"
+
+    }
 }

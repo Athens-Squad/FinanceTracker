@@ -5,7 +5,9 @@ import java.io.File
 import java.time.format.DateTimeFormatter
 import kotlin.io.writeText as writeText
 
-class FileTransactionDataSourceImpl(private val filePath: String = "transactions.txt") : TransactionDataSource {
+class FileTransactionDataSourceImpl(
+    private val filePath: String = "transactions.txt",
+    private val transactionParser: TransactionParser) : TransactionDataSource {
     // Date formatter for converting between LocalDate and String
     private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     private var transactions: MutableMap<String, Transaction> = mutableMapOf()
@@ -60,7 +62,7 @@ class FileTransactionDataSourceImpl(private val filePath: String = "transactions
 
             file.readLines().forEach { line ->
                 if (line.isNotBlank()) {
-                    val transaction = TransactionParser().parseLine(line)
+                    val transaction = transactionParser.parseLine(line)
                     if (transaction != null) {
                         tempTransactions[transaction.id] = transaction
                     }
@@ -87,7 +89,7 @@ class FileTransactionDataSourceImpl(private val filePath: String = "transactions
             for (lineIndex in lines.indices) {
                 val line = lines[lineIndex]
                 if (line.isNotBlank()) {
-                    val transaction = TransactionParser().parseLine(line)
+                    val transaction = transactionParser.parseLine(line)
                     if (transaction != null) {
                         if (transaction.id == transactionId) {
                             lines.removeAt(lineIndex)
@@ -110,8 +112,7 @@ class FileTransactionDataSourceImpl(private val filePath: String = "transactions
         return try {
             val file = File(filePath)
 
-            val transactionLine =
-                "${transaction.id}|${transaction.amount}|${transaction.category}|${transaction.date.format(dateFormatter)}|${transaction.transactionType}"
+            val transactionLine = transactionParser.parseTransactionToLine(transaction)
 
             // id is the common
             if (isEdited) {

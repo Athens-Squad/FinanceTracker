@@ -3,7 +3,7 @@ package data
 import finance.dataSource.TransactionDataSource
 import finance.model.Transaction
 
-class MockFileDataSourceImpl : TransactionDataSource {
+class MockDataSourceImpl : TransactionDataSource {
     private val transactions = mutableMapOf<String, Transaction>()
 
     override fun addTransaction(transaction: Transaction): Boolean {
