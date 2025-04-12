@@ -1,16 +1,16 @@
 package finance
 
-import finance.dataSource.TransactionDataSourceImp
+import finance.dataSource.FileTransactionDataSourceImpl
 import finance.logic.TransactionManagerImpl
 import finance.model.Transaction
 import finance.model.TransactionType
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeParseException
-import java.util.UUID
+import java.util.*
 
 class FinanceTrackerApp {
-    private val transactionManager = TransactionManagerImpl(TransactionDataSourceImp())
+    private val transactionManager = TransactionManagerImpl(FileTransactionDataSourceImpl())
 
     fun start() {
         println("Welcome to Personal Finance Tracker\n")
