@@ -1,16 +1,13 @@
 @file:Suppress("UNREACHABLE_CODE")
 
 import data.MockFileDataSourceImpl
-import finance.dataSource.FileTransactionDataSource
-import finance.dataSource.TransactionDataSourceImp
 import finance.model.Transaction
 import finance.model.TransactionType
 import java.time.LocalDate
 
 
 fun main() {
-    val mockFileDataSource: FileTransactionDataSource = MockFileDataSourceImpl()
-    val dataSource = TransactionDataSourceImp(mockFileDataSource)
+    val dataSource =  MockFileDataSourceImpl()
 
 
     val transaction1 = Transaction(

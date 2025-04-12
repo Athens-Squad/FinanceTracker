@@ -7,17 +7,49 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import kotlin.io.writeText as writeText
 
-class FileTransactionDataSourceImpl(private val filePath: String = "transactions.txt") : FileTransactionDataSource {
+class FileTransactionDataSourceImpl(private val filePath: String = "transactions.txt") : TransactionDataSource {
     // Date formatter for converting between LocalDate and String
     private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    private var transactions: MutableMap<String, Transaction> = mutableMapOf()
 
     init {
         // Load transactions from file when data source is created
         loadTransactionsFromFile()
     }
 
+
+    override fun addTransaction(transaction: Transaction): Boolean {
+        transactions[transaction.id] = transaction
+        return saveTransactionToFile(transaction)
+    }
+
+    override fun editTransaction(editedTransaction: Transaction): Boolean {
+        return if (transactions.containsKey(editedTransaction.id)) {
+            transactions[editedTransaction.id] = editedTransaction
+            saveTransactionToFile(editedTransaction, isEdited = true)
+            true
+        } else {
+            false
+        }
+    }
+
+    override fun deleteTransaction(id: String): Boolean {
+        return if (transactions.containsKey(id)) {
+            transactions.remove(id)
+            deleteTransactionFromFile(id)
+            true
+        } else {
+            false
+        }
+    }
+
+
+    override fun getAllTransactions(): List<Transaction> = transactions.values.toList()
+
+    override fun getTransactionById(id: String): Transaction? = transactions[id]
+
     // Load transactions from the file
-    override fun loadTransactionsFromFile(): MutableMap<String, Transaction> {
+    private fun loadTransactionsFromFile(): MutableMap<String, Transaction> {
         val file = File(filePath)
         val tempTransactions = mutableMapOf<String, Transaction>()
 
@@ -54,7 +86,7 @@ class FileTransactionDataSourceImpl(private val filePath: String = "transactions
         return tempTransactions
     }
 
-    override fun deleteTransactionFromFile(transactionId: String): Boolean {
+    private fun deleteTransactionFromFile(transactionId: String): Boolean {
         val file = File(filePath)
 
         if (!file.exists()) {
@@ -85,7 +117,7 @@ class FileTransactionDataSourceImpl(private val filePath: String = "transactions
     }
 
     // Save transaction to the file
-    override fun saveTransactionToFile(transaction: Transaction, isEdited: Boolean): Boolean {
+    private fun saveTransactionToFile(transaction: Transaction, isEdited: Boolean = false): Boolean {
         return try {
             val file = File(filePath)
 
@@ -104,4 +136,5 @@ class FileTransactionDataSourceImpl(private val filePath: String = "transactions
             false
         }
     }
+
 }

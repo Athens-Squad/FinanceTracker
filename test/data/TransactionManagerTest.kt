@@ -1,4 +1,4 @@
-import finance.dataSource.TransactionDataSourceImp
+import data.MockFileDataSourceImpl
 import finance.logic.TransactionManagerImpl
 import finance.model.Transaction
 import finance.model.TransactionType
@@ -6,7 +6,7 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 fun main() {
-    val dataSource = TransactionDataSourceImp()
+    val dataSource = MockFileDataSourceImpl()
     val manager = TransactionManagerImpl(dataSource)
 
     val transaction1 = Transaction("1", TransactionType.INCOME, 5000, "Salary", LocalDate.of(2025, 4, 1))
