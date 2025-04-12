@@ -1,9 +1,7 @@
 package finance.dataSource
 
 import finance.model.Transaction
-import finance.model.TransactionType
 import java.io.File
-import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import kotlin.io.writeText as writeText
 
@@ -62,21 +60,12 @@ class FileTransactionDataSourceImpl(private val filePath: String = "transactions
 
             file.readLines().forEach { line ->
                 if (line.isNotBlank()) {
-                    val parts = line.split("|")
-                    if (parts.size == 5) {
-                        val id = parts[0]
-                        val amount = parts[1].toIntOrNull() ?: 0
-                        val category = parts[2]
-                        val date = LocalDate.parse(parts[3], dateFormatter)
-                        val transactionType = TransactionType.valueOf(parts[4])
-
-                        val transaction = Transaction(
-                            id = id, amount = amount, date = date, transactionType = transactionType,
-                            category = category
-                        )
-                        tempTransactions[id] = transaction
+                    val transaction = TransactionParser().parseLine(line)
+                    if (transaction != null) {
+                        tempTransactions[transaction.id] = transaction
                     }
                 }
+
             }
         } catch (e: Exception) {
             println("Error loading transactions: ${e.message}")
@@ -98,14 +87,14 @@ class FileTransactionDataSourceImpl(private val filePath: String = "transactions
             for (lineIndex in lines.indices) {
                 val line = lines[lineIndex]
                 if (line.isNotBlank()) {
-                    val parts = line.split("|")
-                    if (parts.size == 5) {
-                        val id = parts[0]
-                        if (id == transactionId) {
+                    val transaction = TransactionParser().parseLine(line)
+                    if (transaction != null) {
+                        if (transaction.id == transactionId) {
                             lines.removeAt(lineIndex)
                             break
                         }
                     }
+
                 }
             }
             file.writeText(lines.joinToString("\n"))
