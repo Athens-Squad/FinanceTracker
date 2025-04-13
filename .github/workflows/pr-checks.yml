@@ -29,5 +29,5 @@ jobs:
       - name: Compile and run SudokuTests.kt
         run: |
           source "$HOME/.sdkman/bin/sdkman-init.sh"
-          kotlinc test/data/TransactionDataSourceTest.kt test/logic/TransactionManagerTest.kt src/finance/*.kt -include-runtime -d sudoku-tests.jar
+          kotlinc test/data/TransactionDataSourceTest.kt test/logic/TransactionManagerTest.kt src/finance/dataSource/*.kt src/finance/model/*.kt src/finance/logic/*.kt src/finance/*.kt -include-runtime -d sudoku-tests.jar
           java -jar sudoku-tests.jar
