@@ -3,12 +3,12 @@ name: PR Checks
 on:
   pull_request:
     branches:
-      - develop
       - master
+      - develop
 
 jobs:
   run-tests:
-    runs-on: ubuntu-latest  # Running on Ubuntu
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -26,30 +26,14 @@ jobs:
           source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk install kotlin
 
-      - name: Compile and run FinanceTrackerTests
+      - name: Compile and run TransactionDataSourceTest.kt
         run: |
           source "$HOME/.sdkman/bin/sdkman-init.sh"
-          mkdir -p out/test
-          
-          # Compile Kotlin files
-          kotlinc \
-            test/data/TransactionDataSourceTest.kt \
-            test/logic/TransactionManagerTest.kt \
-            src/finance/dataSource/*.kt \
-            src/finance/model/*.kt \
-            src/finance/logic/*.kt \
-            src/finance/*.kt \
-            -d out
+          kotlinc test/data/TransactionDataSourceTest.kt src/finance/dataSource/*.kt src/finance/model/*.kt src/finance/logic/*.kt -include-runtime -d transaction-tests.jar
+          java -jar transaction-tests.jar
 
-          # List compiled files using 'find' (for Ubuntu)
-          echo "Compiled classes:"
-          find out -type f
-
-          # Create the manifest file with the correct Main-Class
-          echo "Main-Class: test.FinanceTracker.TransactionDataSourceTestKt" > manifest.txt
-
-          # Package the JAR
-          jar cfm tests.jar manifest.txt -C out .
-
-          # Run the JAR
-          java -jar tests.jar
+      - name: Compile and run TransactionManagerTest.kt
+        run: |
+          source "$HOME/.sdkman/bin/sdkman-init.sh"
+          kotlinc test/logic/TransactionManagerTest.kt src/finance/dataSource/*.kt src/finance/model/*.kt src/finance/logic/*.kt -include-runtime -d transaction-manager-tests.jar
+          java -jar transaction-manager-tests.jar
