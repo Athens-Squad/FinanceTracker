@@ -46,7 +46,7 @@ jobs:
           find out -type f
 
           # Create the manifest file with the correct Main-Class
-          echo "Main-Class: test.data.TransactionDataSourceTestKt" > manifest.txt
+          echo "Main-Class: test.FinanceTracker.TransactionDataSourceTestKt" > manifest.txt
 
           # Package the JAR
           jar cfm tests.jar manifest.txt -C out .
