@@ -1,13 +1,13 @@
 @file:Suppress("UNREACHABLE_CODE")
 
-import finance.dataSource.TransactionDataSourceImp
+import data.MockDataSourceImpl
 import finance.model.Transaction
 import finance.model.TransactionType
 import java.time.LocalDate
 
 
 fun main() {
-    val dataSource = TransactionDataSourceImp()
+    val dataSource =  MockDataSourceImpl()
 
 
     val transaction1 = Transaction(

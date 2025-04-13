@@ -1,13 +1,10 @@
-package finance.dataSource
+package data
 
-import finance.model.MonthSummary
+import finance.dataSource.TransactionDataSource
 import finance.model.Transaction
-import java.time.YearMonth
 
-
-class TransactionDataSourceImp : TransactionDataSource {
-    private val transactions: MutableMap<String, Transaction> = mutableMapOf()
-
+class MockDataSourceImpl : TransactionDataSource {
+    private val transactions = mutableMapOf<String, Transaction>()
 
     override fun addTransaction(transaction: Transaction): Boolean {
         transactions[transaction.id] = transaction
@@ -15,8 +12,7 @@ class TransactionDataSourceImp : TransactionDataSource {
     }
 
     override fun editTransaction(editedTransaction: Transaction): Boolean {
-
-        return if (checkIfTransactionExist(editedTransaction.id)) {
+        return if (transactions.containsKey(editedTransaction.id)) {
             transactions[editedTransaction.id] = editedTransaction
             true
         } else {
@@ -25,20 +21,10 @@ class TransactionDataSourceImp : TransactionDataSource {
     }
 
     override fun deleteTransaction(id: String): Boolean {
-        return if (checkIfTransactionExist(id)) {
-            transactions.remove(id)
-            true
-        } else {
-            false
-        }
+        return transactions.remove(id) != null
     }
 
     override fun getAllTransactions(): List<Transaction> = transactions.values.toList()
 
     override fun getTransactionById(id: String): Transaction? = transactions[id]
-
-
-
-    private fun checkIfTransactionExist(id: String) =
-        transactions.containsKey(id)
 }
