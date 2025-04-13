@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - master
+      - develop
 
 jobs:
   run-tests:
@@ -25,8 +26,14 @@ jobs:
           source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk install kotlin
 
-      - name: Compile and run SudokuTests.kt
+      - name: Compile and run TransactionDataSourceTest.kt
         run: |
           source "$HOME/.sdkman/bin/sdkman-init.sh"
-          kotlinc test/data/TransactionDataSourceTest.kt test/data/TransactionManagerTest.kt src/finance/*.kt -include-runtime -d sudoku-tests.jar
-          java -jar sudoku-tests.jar
+          kotlinc test/data/TransactionDataSourceTest.kt src/finance/dataSource/*.kt src/finance/model/*.kt src/finance/logic/*.kt -include-runtime -d transaction-tests.jar
+          java -jar transaction-tests.jar
+
+      - name: Compile and run TransactionManagerTest.kt
+        run: |
+          source "$HOME/.sdkman/bin/sdkman-init.sh"
+          kotlinc test/logic/TransactionManagerTest.kt src/finance/dataSource/*.kt src/finance/model/*.kt src/finance/logic/*.kt -include-runtime -d transaction-manager-tests.jar
+          java -jar transaction-manager-tests.jar

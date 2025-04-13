@@ -1,5 +1,7 @@
 @file:Suppress("UNREACHABLE_CODE")
 
+package data
+
 import finance.dataSource.TransactionDataSourceImp
 import finance.model.Transaction
 import finance.model.TransactionType
@@ -87,4 +89,3 @@ fun<T> testTransaction(name: String, result: T, correctResult: T) {
         println("Failed: $name")
     }
 }
-
