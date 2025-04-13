@@ -29,7 +29,7 @@ jobs:
       - name: Compile and run FinanceTrackerTests
         run: |
           source "$HOME/.sdkman/bin/sdkman-init.sh"
-          mkdir -p out
+          mkdir -p out/test
           kotlinc \
           test/data/TransactionDataSourceTest.kt \
           test/logic/TransactionManagerTest.kt \
@@ -38,6 +38,9 @@ jobs:
           src/finance/logic/*.kt \
           src/finance/*.kt \
           -d out
+          
+          echo "Compiled classes:"
+          find out -type f
           
           echo "Main-Class: test.data.TransactionDataSourceTestKt" > manifest.txt
           
