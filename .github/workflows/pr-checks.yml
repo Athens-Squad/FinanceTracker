@@ -36,6 +36,8 @@ jobs:
           src/finance/model/*.kt \
           src/finance/logic/*.kt \
           src/finance/*.kt \
-          -include-runtime -d tests.jar
+          -include-runtime -d tests.jar \
+          -Xinclude-runtime \
+          -Xmain-class=test.data.TransactionDataSourceTestKt
           
           java -jar tests.jar
