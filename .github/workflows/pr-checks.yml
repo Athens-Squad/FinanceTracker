@@ -8,7 +8,7 @@ on:
 
 jobs:
   run-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Running on Ubuntu
 
     steps:
       - name: Checkout code
@@ -30,20 +30,26 @@ jobs:
         run: |
           source "$HOME/.sdkman/bin/sdkman-init.sh"
           mkdir -p out/test
-          kotlinc \
-          test/data/TransactionDataSourceTest.kt \
-          test/logic/TransactionManagerTest.kt \
-          src/finance/dataSource/*.kt \
-          src/finance/model/*.kt \
-          src/finance/logic/*.kt \
-          src/finance/*.kt \
-          -d out
           
+          # Compile Kotlin files
+          kotlinc \
+            test/data/TransactionDataSourceTest.kt \
+            test/logic/TransactionManagerTest.kt \
+            src/finance/dataSource/*.kt \
+            src/finance/model/*.kt \
+            src/finance/logic/*.kt \
+            src/finance/*.kt \
+            -d out
+
+          # List compiled files using 'find' (for Ubuntu)
           echo "Compiled classes:"
           find out -type f
-          
+
+          # Create the manifest file with the correct Main-Class
           echo "Main-Class: test.data.TransactionDataSourceTestKt" > manifest.txt
-          
+
+          # Package the JAR
           jar cfm tests.jar manifest.txt -C out .
-          
+
+          # Run the JAR
           java -jar tests.jar
